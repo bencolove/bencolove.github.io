@@ -24,18 +24,14 @@ diff A 		| 比較 commitA 和 wt
 diff A --cached	| 比較 commitA 和 index (A默認爲HEAD)
 
 ### revert
-> git reset A <file>
+> git [--soft | --mixed | --hard] reset A <file>
+> --soft 只是移動HEAD指向A
+> --mixed 移動HEAD指向A,並用HEAD版本覆蓋index,默認選項
+> --hard 移動HEAD指向A,並用HEAD版本覆蓋index和working dir
 
-Example: testfile
-file content | location
---- | ---
-this is commit A 		| commitA id:d870564
-this is commit B 		| commitB id:a713516 HEAD
-this is commit B\nthis is index | index
-this is commit B\nindex\nwd 	| wd
-
-command | effect
----|---
-```git reset --hard d870564```		| HEAD回退指向commitA版本,並覆蓋HEAD,index和wd
-```git reset HEAD testfile		| 使用HEAD版本的testfile覆蓋index的testfile.等同於放棄index中testfile的修改
-```git checkout -- testfile		| 使用index中的testfile覆蓋wd中的版本.等同於放棄wd的修改
+commands\location | commitA<br/>id:d870564 | commitB<br/>id:a713516<br/>HEAD | index | working dir
+---|---|---|---|---
+content | 'commit A' | 'commit B' | 'commit B'<br/>'index' | 'commit B'<br/>'index'<br/>'wd'
+```git reset --soft d870564```<br/>HEAD回退指向commitA版本 | 'commit A'<br/>HEAD | 'commit B' | 'commit B'<br/>'index' | 'commit B'<br/>'index'<br/>'wd'
+```git reset HEAD testfile```<br/>使用HEAD版本的testfile覆蓋index的testfile<br/>等同於放棄index中testfile的修改 | 'commit A'<br/>HEAD | 'commit B' | 'commit A' | 'commit B'<br/>'index'<br/>'wd'
+```git checkout -- testfile```<br/>使用index中的testfile覆蓋wd中的版本<br/>等同於放棄wd的修改|'commit A'<br/>HEAD | 'commit B' | 'commit A' | 'commit A'

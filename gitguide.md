@@ -55,3 +55,74 @@ testfile文件內容 | 'commit A' | 'commit B'<br/>**HEAD** | 'commit B'<br/>'in
 > -f force to delete file from **index** and **wt**
 
 > -r recursively on dirs
+
+### branches 分支管理
+
+#### 創建分支
+```
+$ git checkout -b dev
+```
+等於
+```
+$ git branch dev
+$ git checkout dev
+```
+#### 切換分支
+```
+$ git checkout <branch>
+```
+#### 合並分支
+```
+# 把dev分支合並到當前分支
+# 允許情況下進行fast-forward合並
+$ git merge dev
+```
+#### 解決衝突
+1. 如果
+```
+$ git merge dev
+...
+CONFLICT ...
+...
+```
+2. 衝突的文件看上去會像:
+> <<<<<<<< HEAD
+xxxxx
+========
+yyyyy
+>>>>>>>> dev
+>
+
+3. 修改文件內容解決衝突後再commit一次
+
+4. 使用
+```
+$ git log --graph --pretty=oneline --abbrev-commit
+* 59bdc1c conflict fixed
+|\
+| * 47efcd1 dev commit
+* | 32ac89c master commit
+|/
+* fe82345 branch created
+```
+
+
+#### 刪除分支
+```
+$ git branch -d dev
+# 強制刪除分支,丟棄修改
+$ git branch -D dev
+```
+#### 查看分支
+```
+$ git branch
+```
+
+#### 分支使用策略
+master 分支僅用於版本發布, 不要在上面開分支合並
+dev用作於團體協作,每個成員在dev上面開分支,提交,再合並去dev
+
+分支開發流程的commit圖看起來會是像這樣:
+
+
+### remote repository
